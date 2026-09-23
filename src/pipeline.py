@@ -41,10 +41,6 @@ def create_500_row_dataset() -> pd.DataFrame:
         df = df.merge(data['customers'], on='customer_id', how='inner')
         df = df.merge(data['sellers'], on='seller_id', how='inner')
 
-        if len(df) > 500:
-            df = df.head(500)
-            logger.info('Trimmed to 500 rows')
-
         logger.info('Merged dataset shape: %s', df.shape)
         return df
     except Exception as e:
