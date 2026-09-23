@@ -29,29 +29,38 @@ Implemented a complete MLOps pipeline for customer satisfaction analysis using t
 ### 2.3 `__init__.py` Files
 - **Issue**: `data_ingestion/__init__.py` had wrong import `from src.logger import logging`
 - **Issue**: `data_preprocessing/__init__.py` tried to import `clean_and_prepare` which doesn't exist in that module
-- **Fix**: Updated all `__init__.py` files with correct imports and exports
+- **Fix**: Updated all `__init__.py` files to import from module files directly (avoiding circular imports)
 
-### 2.4 Model Training (`src/model_training/trainer.py`)
-- **Issue**: Missing imports for `confusion_matrix` and `ConfusionMatrixDisplay`
-- **Fix**: Added proper imports
-- **Created**: New `trainer.py` module with `initialize_models()`, `train_models()`, `evaluate_models()`, `plot_confusion_matrices()`, `plot_feature_importance()`
+### 2.4 Feature Engineering (`src/components/feature_engg/feature_engineering.py`)
+- **Created**: New `feature_engg/` component module with `feature_engineering()`, `clean_and_prepare()`, `load_params()`
+- Moved `feature_engineering()` and `clean_and_prepare()` from `data_ingestion.py` to dedicated module
 
-### 2.5 Model Evaluation (`src/model_evaluation/evaluator.py`)
-- **Issue**: `classification_report` doesn't accept `average` parameter in all sklearn versions
-- **Fix**: Added try-except fallback for sklearn compatibility
-- **Created**: New `evaluator.py` module with `generate_classification_report()`, `calculate_metrics()`, `plot_roc_curves()`, `plot_metrics_bar_chart()`
+### 2.5 Model Training (`src/components/model_training/model_training.py`)
+- **Issue**: Was at `src/model_training/` instead of `src/components/model_training/`
+- **Fix**: Moved to `src/components/model_training/model_training.py`
+- **Created**: Module with `initialize_models()`, `train_models()`, `evaluate_models()`, `plot_confusion_matrices()`, `plot_feature_importance()`
 
-### 2.6 LeIA Package Issue
+### 2.6 Model Evaluation (`src/components/model_evaluation/evaluator.py`)
+- **Issue**: Was at `src/model_evaluation/` instead of `src/components/model_evaluation/`
+- **Fix**: Moved to `src/components/model_evaluation/evaluator.py`
+- **Created**: Module with `generate_classification_report()`, `calculate_metrics()`, `plot_roc_curves()`, `plot_metrics_bar_chart()`
+
+### 2.7 Model Building (`src/components/model_building/model_building.py`)
+- **Created**: New `model_building/` component module with `initialize_models()`, `train_models()`, `evaluate_models()`
+- Provides alternative model building interface with sklearn compatibility
+
+### 2.8 LeIA Package Issue
 - **Issue**: `LeIA` package on PyPI is for image compositing, not sentiment analysis
 - **Fix**: Replaced `from LeIA import SentimentIntensityAnalyzer` with `from nltk.sentiment.vader import SentimentIntensityAnalyzer`
 - **Fix**: Added `nltk.download('vader_lexicon', quiet=True)` call
 
-### 2.7 Pipeline Dataset Creation
+### 2.9 Pipeline Dataset Creation
 - **Issue**: Taking 500 rows from each dataset independently resulted in 0-row merged dataframe due to non-matching keys
 - **Fix**: Load full datasets, merge first, then trim to 500 rows from the merged result
 
-### 2.8 NLP Preprocessing
+### 2.10 NLP Preprocessing
 - **Issue**: `preprocess_nlp_df` failed with `Columns must be same length as key` when NaN values existed
+- **Fix**: Added `dropna(subset=['review_comment_message'])` before applying the tokenization
 - **Fix**: Added `dropna(subset=['review_comment_message'])` before applying the tokenization
 
 ---

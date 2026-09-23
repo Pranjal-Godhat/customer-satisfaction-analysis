@@ -42,9 +42,7 @@ def generate_classification_report(y_test: np.ndarray, y_pred: np.ndarray, avera
 
 def calculate_metrics(y_test: np.ndarray, y_pred: np.ndarray, average_method: str = 'weighted') -> Dict[str, float]:
     try:
-        metrics = {
-            "accuracy": accuracy_score(y_test, y_pred),
-        }
+        metrics = {"accuracy": accuracy_score(y_test, y_pred)}
         for metric_name, metric_func in [("precision", precision_score), ("recall", recall_score), ("f1_score", f1_score)]:
             try:
                 metrics[metric_name] = metric_func(y_test, y_pred, average=average_method)
@@ -61,8 +59,6 @@ def calculate_metrics(y_test: np.ndarray, y_pred: np.ndarray, average_method: st
 
 def plot_roc_curves(models: Dict, X_test: np.ndarray, y_test: np.ndarray, label_encoder: LabelEncoder, save_dir: str = './data_bucket'):
     try:
-        from sklearn.metrics import confusion_matrix
-        from sklearn.metrics import ConfusionMatrixDisplay
         os.makedirs(save_dir, exist_ok=True)
         fig, ax = plt.subplots(figsize=(10, 8))
         for name, model in models.items():

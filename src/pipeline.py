@@ -7,10 +7,11 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.logger import logger
-from src.components.data_ingestion.data_ingestion import load_params, feature_engineering, clean_and_prepare, save_data
-from src.components.data_preprocessing.data_preprocessing import download_nltk_data, get_portuguese_stopwords, preprocess_nlp_df, classify_sentiment, prepare_training_data
-from src.model_training.trainer import initialize_models, train_models, evaluate_models, plot_confusion_matrices, plot_feature_importance
-from src.model_evaluation.evaluator import generate_classification_report, calculate_metrics, plot_roc_curves, plot_metrics_bar_chart
+from src.components.data_ingestion import load_params, feature_engineering, clean_and_prepare, save_data
+from src.components.data_preprocessing import download_nltk_data, get_portuguese_stopwords, preprocess_nlp_df, classify_sentiment, prepare_training_data
+from src.components.model_training import initialize_models, train_models, evaluate_models, plot_confusion_matrices, plot_feature_importance
+from src.components.model_evaluation import generate_classification_report, calculate_metrics, plot_roc_curves, plot_metrics_bar_chart
+from src.components.model_building import initialize_models as build_initialize_models, train_models as build_train_models, evaluate_models as build_evaluate_models
 from sklearn.model_selection import train_test_split
 
 def create_500_row_dataset() -> pd.DataFrame:
